@@ -1,0 +1,65 @@
+plugins {
+    id 'java-library'
+    id 'maven-publish'
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+    withSourcesJar()
+    withJavadocJar()
+}
+
+dependencies {
+
+    // -----------------------------
+    // Core SDK
+    // -----------------------------
+    api project(':llmbridge-core')
+
+    // -----------------------------
+    // OpenAI Java SDK
+    // -----------------------------
+    implementation 'com.openai:openai-java:0.27.0' // pin version intentionally
+
+    // -----------------------------
+    // Lombok
+    // -----------------------------
+    compileOnly 'org.projectlombok:lombok:1.18.30'
+    annotationProcessor 'org.projectlombok:lombok:1.18.30'
+
+    testCompileOnly 'org.projectlombok:lombok:1.18.30'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.30'
+
+    // -----------------------------
+    // Testing
+    // -----------------------------
+    testImplementation platform('org.junit:junit-bom:5.10.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+
+            artifactId = 'llmbridge-openai'
+
+            pom {
+                name = 'LLMBridge OpenAI Provider'
+                description = 'OpenAI provider implementation for LLMBridge'
+                licenses {
+                    license {
+                        name = 'Apache License, Version 2.0'
+                        url = 'https://www.apache.org/licenses/LICENSE-2.0'
+                    }
+                }
+            }
+        }
+    }
+}

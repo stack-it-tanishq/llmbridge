@@ -1,1 +1,3 @@
 rootProject.name = 'llmbridge'
+include 'llmbridge-core'
+include 'llmbridge-openai'
