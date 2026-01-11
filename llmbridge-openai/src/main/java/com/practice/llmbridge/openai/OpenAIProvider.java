@@ -6,6 +6,7 @@ import com.practice.llmbridge.core.model.EmbeddingRequest;
 import com.practice.llmbridge.core.model.EmbeddingResponse;
 import com.practice.llmbridge.core.provider.LLMProvider;
 import com.practice.llmbridge.core.provider.ProviderType;
+import lombok.Value;
 
 import java.util.Collections;
 
@@ -15,6 +16,12 @@ public class OpenAIProvider implements LLMProvider {
 
     public OpenAIProvider(OpenAIConfig config) {
         this.config = config;
+    }
+
+    public OpenAIProvider() {
+        // ServiceLoader will call this
+        // config can be loaded lazily or from env
+        this.config = OpenAIConfig.fromEnv();
     }
 
     @Override
